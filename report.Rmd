@@ -1,0 +1,47 @@
+---
+fontsize: 11pt
+classoption:
+  - dvipsnames
+output:
+  bookdown::pdf_document2:
+    fig_caption: true
+    highlight: tango
+    keep_tex: true
+    number_sections: true
+    pandoc_args: --listings
+    toc_depth: 3
+    toc: true
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.tex
+      before_body: cover.tex
+---
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align = "center")
+```
+\newpage
+
+# Présentation du problème
+
+L’objectif de ce TP est d’étudier la résolution de l’équation de la chaleur en comparant la méthode des différences finies et la méthode de Monte-Carlo. Soit $L = 1$, $\Omega = ]0,L[ \times ]0,L[$ et $T$ un réel strictement positif. Le problème è résoudre est le suivant :
+$$\frac{\partial u}{\partial t} + V \cdot \nabla u - D \Delta u = f$$ sur $[0,T] \times \Omega$,
+avec la condition initiale :
+$$u(0,x,y)=0, \quad \forall (x,y) \in \Omega$$
+et les condition aux limites :
+
+- en $x \in \{0,L\}, \quad \forall (t,y) \in [0,T]\times [0,L], \quad \frac{\partial u}{\partial x}(t,x,y)=0$
+- en $y \in \{0,L\}, \quad \forall (t,y) \in [0,T]\times [0,L], \quad u(t,x,0)=0, \quad u(t,x,L)=1$
+
+Le coefficient $D=0.2$, strictement positif, correspond à la diffusivité thermique du fluide. $V = (V_1,V_2)$ le champ de vitesse du fluide avec:
+$$ V = (V_1(x,y),V_2(x,y)) = V_0 (-sin(\frac{\pi x}{L})cos(\frac{\pi y}{L}),sin(\frac{\pi y}{L})cos(\frac{\pi x}{L}))$$
+où $V_0 = 1$. La fonction $f$ correspond à la source de chaleur avec l'expression:
+$$\forall(t,x,y) \in [0,T] \times \Omega, \quad f(t,x,y)=256(\frac{x}{L})^2 (1-\frac{x}{L})^2(\frac{y}{L})^2 (1-\frac{y}{L})^2$$
+
+# Méthode des différences finies
+
+Dans cette première partie, on s’intéresse à la résolution par différences finies. Soit $K$ un entier strictement positif. Les sommets de la grille sont par définition les $(K + 1)^2$ points $X_{i,j}$ de coordonnées $(ih,jh)$ avec $h =\frac{L}{k}$ et $(i,j) \in \{0,\dots,K\} \times \{0,\dots,K\}$.  On considère le schéma aux différences finies défini par les relations suivantes.
+
+On note: $V_{i,j}^1=V_1(X_{i,j}),V_{i,j}^2=V_2(X_{i,j})$ et $f_{i,j}=f(X_{i,j})$.

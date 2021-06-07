@@ -1,0 +1,185 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  11pt,
+  dvipsnames]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{fontspec}
+\usepackage{subfig}
+\usepackage[french]{babel}
+\usepackage{csquotes}
+\setmonofont{JetBrains Mono}[Contextuals=Alternate]
+\floatplacement{figure}{H}
+\lstset{ 
+  language=python,                     % the language of the code
+  basicstyle=\small\ttfamily, % the size of the fonts that are used for the code
+  stepnumber=1,                   % the step between two line-numbers. If it is 1, each line
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{cyan!5},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  keywordstyle=\color{RoyalBlue},      % keyword style
+  commentstyle=\color{Green},   % comment style
+  stringstyle=\color{Orange},      % string literal style
+}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+        {-2.5ex\@plus -1ex \@minus -.25ex}%
+        {1.25ex \@plus .25ex}%
+        {\normalfont\normalsize\bfseries}}
+\makeatother
+\setcounter{secnumdepth}{4}
+\hypersetup{
+    colorlinks = true,
+}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\onehalfspacing
+
+\pagenumbering{gobble}
+
+\begin{titlepage}
+\vspace*{\fill}
+\begin{center}
+\LARGE{\textbf{COMPTE RENDU}}\\
+
+\Large{\textbf{Méthodes de différences finies et méthodes de Monte-Carlo}}\\
+\Large{\textbf{pour l’équation de la chaleur}}\\
+\vspace*{1\baselineskip}
+\Large{\textbf{Membres}}\\
+PHAM Tuan Kiet\\
+VO Van Nghia\\
+\vfill % equivalent to \vspace{\fill}
+\vspace*{\fill}
+\today
+\end{center}
+\end{titlepage}
+
+\newpage
+
+\newpage
+
+\newpage
+\pagenumbering{arabic}
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\newpage
+
+\hypertarget{pruxe9sentation-du-probluxe8me}{%
+\section{Présentation du problème}\label{pruxe9sentation-du-probluxe8me}}
+
+L'objectif de ce TP est d'étudier la résolution de l'équation de la chaleur en comparant la méthode des différences finies et la méthode de Monte-Carlo. Soit \(L = 1\), \(\Omega = ]0,L[ \times ]0,L[\) et \(T\) un réel strictement positif. Le problème è résoudre est le suivant :
+\[\frac{\partial u}{\partial t} + V \cdot \nabla u - D \Delta u = f\] sur \([0,T] \times \Omega\),
+avec la condition initiale :
+\[u(0,x,y)=0, \quad \forall (x,y) \in \Omega\]
+et les condition aux limites :
+
+\begin{itemize}
+\tightlist
+\item
+  en \(x \in \{0,L\}, \quad \forall (t,y) \in [0,T]\times [0,L], \quad \frac{\partial u}{\partial x}(t,x,y)=0\)
+\item
+  en \(y \in \{0,L\}, \quad \forall (t,y) \in [0,T]\times [0,L], \quad u(t,x,0)=0, \quad u(t,x,L)=1\)
+\end{itemize}
+
+Le coefficient \(D=0.2\), strictement positif, correspond à la diffusivité thermique du fluide. \(V = (V_1,V_2)\) le champ de vitesse du fluide avec:
+\[ V = (V_1(x,y),V_2(x,y)) = V_0 (-sin(\frac{\pi x}{L})cos(\frac{\pi y}{L}),sin(\frac{\pi y}{L})cos(\frac{\pi x}{L}))\]
+où \(V_0 = 1\). La fonction \(f\) correspond à la source de chaleur avec l'expression:
+\[\forall(t,x,y) \in [0,T] \times \Omega, \quad f(t,x,y)=256(\frac{x}{L})^2 (1-\frac{x}{L})^2(\frac{y}{L})^2 (1-\frac{y}{L})^2\]
+
+\hypertarget{muxe9thode-des-diffuxe9rences-finies}{%
+\section{Méthode des différences finies}\label{muxe9thode-des-diffuxe9rences-finies}}
+
+Dans cette première partie, on s'intéresse à la résolution par différences finies. Soit \(K\) un entier strictement positif. Les sommets de la grille sont par définition les \((K + 1)^2\) points \(X_{i,j}\) de coordonnées \((ih,jh)\) avec \(h =\frac{L}{k}\) et \((i,j) \in \{0,\dots,K\} \times \{0,\dots,K\}\). On considère le schéma aux différences finies défini par les relations suivantes.
+
+On note: \(V_{i,j}^1=V_1(X_{i,j}),V_{i,j}^2=V_2(X_{i,j})\) et \(f_{i,j}=f(X_{i,j})\).
+
+\end{document}
