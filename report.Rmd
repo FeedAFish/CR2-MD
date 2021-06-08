@@ -42,6 +42,154 @@ $$\forall(t,x,y) \in [0,T] \times \Omega, \quad f(t,x,y)=256(\frac{x}{L})^2 (1-\
 
 # Méthode des différences finies
 
-Dans cette première partie, on s’intéresse à la résolution par différences finies. Soit $K$ un entier strictement positif. Les sommets de la grille sont par définition les $(K + 1)^2$ points $X_{i,j}$ de coordonnées $(ih,jh)$ avec $h =\frac{L}{k}$ et $(i,j) \in \{0,\dots,K\} \times \{0,\dots,K\}$.  On considère le schéma aux différences finies défini par les relations suivantes.
+Dans cette première partie, on s’intéresse à la résolution par différences finies. Soit $K$ un entier strictement positif. Les sommets de la grille sont par définition les $(K + 1)^2$ points $X_{i,j}$ de coordonnées $(ih,jh)$ avec $h =\frac{L}{k}$ et $(i,j) \in \{0,\dots,K\} \times \{0,\dots,K\}$. En notant: $V_{i,j}^1=V_1(X_{i,j}),V_{i,j}^2=V_2(X_{i,j})$ et $f_{i,j}=f(X_{i,j})$, on considère le schéma aux différences finies défini par les relations suivantes:
 
-On note: $V_{i,j}^1=V_1(X_{i,j}),V_{i,j}^2=V_2(X_{i,j})$ et $f_{i,j}=f(X_{i,j})$.
+- $\forall (i,j) \in {1,\dots,K-1}^2$:
+$$u_{i,j}^{n+1} = u_{i,j}^n-\Delta t V_{i,j}^1 \frac{u_{i+1,j}^{n}-u_{i-1,j}^{n}}{2h}-\Delta t V_{i,j}^2 \frac{u_{i,j+1}^{n}-u_{i,j-1}^{n}}{2h}+$$
+$$\Delta tD \frac{u_{i+1,j}^{n}+u_{i,j+1}^{n}-4u_{i,j}^{n}+u_{i-1,j}^{n}+u_{i,j-1}^{n}}{h^2}+\Delta t f_{i,j}$$
+
+- Soit $j \in \{0,K\}$:
+$$ u_{i,0}^{n+1} = 0, \quad u_{i,K}^{n+1} = 1$$
+
+- Soit $i = 0$ et $j\in \{1,\dots,K-1\}$:
+$$u_{i,j}^{n+1} = u_{i,j}^n-\Delta t V_{i,j}^2 \frac{u_{i,j+1}^{n}-u_{i,j-1}^{n}}{2h}+ \Delta tD \frac{u_{i+1,j}^{n}+u_{i,j+1}^{n}-3u_{i,j}^{n}+u_{i,j-1}^{n}}{h^2} + \Delta t f_{i,j}$$
+
+- Soit $i = K$ et $j\in \{1,\dots,K-1\}$:
+
+$$u_{i,j}^{n+1} = u_{i,j}^n-\Delta t V_{i,j}^2 \frac{u_{i,j+1}^{n}-u_{i,j-1}^{n}}{2h} + \Delta tD \frac{u_{i,j+1}^{n}-3u_{i,j}^{n}+u_{i-1,j}^{n}+u_{i,j-1}^{n}}{h^2} + \Delta t f_{i,j}$$
+
+
+**Question 1:**
+
+On va montrer qu'il existe une matrice creuse $A \in M_{(K+1)^2}(R)$ et un vecteur $S$ de dimension $(K+1)^2$ tel que $\forall n \in N$, le schéma siot équivalent à:
+$$ U^{n+1} = AU^n + S$$
+D'abord, soit $U_{i,j}^{n+1}= \alpha U_{i,j}^{n} + \beta U_{i,j+1}^{n} + \gamma U_{i,j-1}^{n} + \delta U_{i+1,j}^{n} + \omega U_{i-1,j}^{n} + s_{i,j}$
+
+*Équation 1:* Pour tout $(i,j) \in \{1, \dots, K-1\}^2$:
+$$\alpha = 1-\frac{4\Delta tD}{h^2}$$
+$$\beta = \frac {\Delta t D}{h^2}-\frac {\Delta t V_{i,j}^1}{2h}$$
+$$\gamma = \frac {\Delta t D}{h^2}+\frac {\Delta t V_{i,j}^1}{2h}$$
+$$\delta = \frac {\Delta t D}{h^2}-\frac {\Delta t V_{i,j}^2}{2h}$$
+$$\omega = \frac {\Delta t D}{h^2}+\frac {\Delta t V_{i,j}^2}{2h}$$
+$$s_{i,j}=\Delta t f_{i,j}$$
+*Équation 2:* $j= 0$ ou $j=K$
+$$U_{i,0}^{n+1} = s_{i,0} = 0; \quad U_{i,K}^{n+1} = s_{i,K} = 1$$
+*Équation 3:* avec $i = 0$ et $j \in \{1, \dots, K-1\}$:
+$$\alpha = 1-\frac{3\Delta tD}{h^2}$$
+$$\beta = \frac {\Delta t D}{h^2}-\frac {\Delta t V_{i,j}^2}{2h}$$
+$$\gamma =\frac {\Delta t D}{h^2}+\frac {\Delta t V_{i,j}^2}{2h}$$
+$$\delta = \frac {\Delta t D}{h^2}$$
+$$\omega =0$$
+$$s_{i,j}=\Delta t f_{i,j}$$
+*Équation 4:* avec $i = K$ et $j \in \{1, \dots, K-1\}$:
+$$\alpha = 1-\frac{3\Delta tD}{h^2}$$
+$$\beta = \frac {\Delta t D}{h^2}-\frac {\Delta t V_{i,j}^2}{2h}$$
+$$\gamma =\frac {\Delta t D}{h^2}+\frac {\Delta t V_{i,j}^2}{2h}$$
+$$\delta =0$$
+$$\omega = \frac {\Delta t D}{h^2}$$
+
+Donc, soit $k = i + (K+1)j$, $A \in M_{(K+1)^2}(R)$ une matrice creuse et $S$ un vecteur de dimension $(K+1)^2$. On les définie:
+
+- $S_k = s_{i,j}$
+- Pour la matrice $A$ avec $\alpha ,\beta,\gamma,\delta,\omega$ dépendent de $(i,j)$:
+$$\begin{cases}
+A_{k,k} &= \alpha\\
+A_{k,k+1} &= \delta\\
+A_{k,k-1} &= \omega\\
+A_{k,k+K} &= \beta\\
+A_{k,k-K} &= \gamma\\
+\end{cases}$$
+
+**Question 2:**
+
+Soit le schéma monotone, $\alpha ,\beta,\gamma,\delta,\omega$ soient positifs sur chaque équation. Donc, on peut déduire:
+$$ 0 \leq \lambda \leq 1$$
+$$ \beta \geq 0 \Leftrightarrow \frac {D}{h}-\frac {V_{i,j}^2}{2} \geq 0$$
+On a : $\quad V_{i,j}^2 \leq V_0$, donc pour que $\beta$ soit positif: 
+$$\frac {D}{h}-\frac {V_0}{2} \geq 0 \Leftrightarrow P_e\leq 2$$
+Avec chaque valeur de pair $(V_0,D)$, on devrait choisir un maillage $h$ assez petit tels que: $h \leq \frac{2D}{V_0}$. Si $D$ est très petit et $V_0$ est grand, il va demander beaucoup de calculs.
+
+**Question 4:**
+
+\\Thêm ảnh bạn ơi
+
+Globalement, on observe que la température des particules augmente de 0 à 1 quand y augmente. Cela est du au fait que la paroi inférieure et supérieure ont une température fixée respectivement à 0 et 1. Lorsque le fluide se déplace dans le sens indiqué sur la figure 1, le changement de concavité est plus important. On observe également qu’en diminuant le pas de maillage, la température diminue légérement.  Cela est du au fait qu’on effectue plus de calculs, il y aura donc plus de points, et les variations de températures entre deux points sont donc plus faibles.
+
+Dans les trois cas, on constate un changement de concavité. Le changement de concavité est le plus marqué par rapport aux autres. À $x=0.25L$ la température augmente moins vite vers la paroi inférieure et plus vite vers la paroi supérieure. Au contraire à $x=0.25L$, en $x=0.75L$ la température augmente moins vite vers la paroi supérieure. Plus $t$ augmente, plus ce phénoméne est visible. On peut penser qu’il se met en place progressivement dans le temps.
+
+Plus $h$ est petit, plus le pas de temps doit être petit aussi, il y aura donc plus de calculs à faire, ce qui va donc augmente le temps de calculs.
+
+# Méthode de Monte-Carlo
+
+La méthode de Monte-Carlo consite à considérer un ensemble de K particules fictives animées d’un mouvement aléatoire et dont la température $\theta$ varie le long de leur trajectoire en fonction des valeurs de la source de chaleur modélisée par la fonction $f$.
+
+On note $(x_k^n,y_k^n)$ le vecteur position à l’instant $t^n = n\Delta t$ de la particule $k$ et $\theta_k^n$ sa température. D’après le cours, on a le schéma numérique suivant:
+
+***Étape prédicteur***
+$$\begin{cases}
+x_k^{n+1,*}&=x_k^n + \Delta t V_1(x_k^n,y_k^n)+\sqrt{2D\Delta t}\alpha_k^n\\
+y_k^{n+1,*}&=y_k^n + \Delta t V_2(x_k^n,y_k^n)+\sqrt{2D\Delta t}\beta_k^n\\
+\theta_k^{n+1,*}&=\theta_k^n +\Delta t f(x_k^n,y_k^n)\\
+\end{cases}$$
+où les $\alpha_k^n$ et $\beta_k^n$ sont des variables aléatoires normales centrées réduites identiquement indépendentes deux à deux.
+
+***Étape correcteur***
+$$\begin{cases}
+x_k^{n+1}&=min(L,max(x_k^{n+1,*},0))\\
+y_k^{n+1}&=min(L,max(y_k^{n+1,*},0))\\
+\end{cases}$$
+et
+$$\theta_k^{n+1}=\begin{cases}
+\theta_k^{n+1,*} \ &si \ 0 < x_k^{n+1,\*} < 1\\
+0 \ &si \ x_k^{n+1,\*} \leq 0\\
+1 \ &si \ x_k^{n+1,\*} \geq 1\\
+\end{cases}$$
+
+A l’instant initial, les coordonnées initiales sont tirées selon une loi uniforme sur $[0,L]$ et en posant:
+$$\theta_k^0 =T_0(x_k^0,y_k^0)=0$$
+
+Pour calculer une approximation du champ de température $T(t,x,y)$, la méthode de Monte_Carlo consiste à diviser le domaine de $\Omega = ]0,L[ \times ]0,L[$ en $M^2$ cellules identiques de dimension $\epsilon \times \epsilon$ avec $\epsilon = \frac{L}{M}$.  La température discrète $T_{ij}^n$ dans la cellule $C_{ij}$ de centre $X_{ij}=(x_{ij},y_{ij})=((i-0.5\epsilon),(j-0.5\epsilon))$ et à l'instant $t^n = n \Delta t$, on a:
+$$T_{ij}^n=\frac{1}{K_{ij}^n}\sum_{p_k \in C_{ij}} \theta_k^n$$
+où $K_{ij}$ désigne le  nombre de particules situées à l'instant $t^n$ dans la celluel $C_{ij}$.
+
+**Question 5:**
+
+À N fixé, on observe deux situatuons extrêmes possible:
+
+- Quand $\epsilon \to 0$: les cellules deviennent de plus en plus petites. C'est-à-dire  il y aura de moins en moins de chance que des particules se trouvent à plusieurs dans une cellule particulière. Car le nombre des particules n'est pas assez grand pour remplir la plupart des carrés élémentaires, on obtient:
+$$ E(\theta_k^n\mid p_k \in C_{ij}) \underset{\epsilon \to 0}{\longrightarrow} 0$$
+Dans cette méthode, il y aura donc des points dont la température est discontinue et est supérieure que celle des points autour d'eux. Il faut nécessairement avoir un $N$ assez élevé pour que les cellules contiennent assez de particules, dans le but d’avoir une estimation correcte de la température.
+- Quand $\epsilon \to +\infty$: dans ce cas, on a $\epsilon = L \Leftrightarrow M=1$.La température obtenue sera la température moyenne de toute la grille et donc il n’y aura plus d’intérêt d'étudier ce problème.
+
+Ainsi, $N$ et $\epsilon$ sont deux grandeurs liées si l’on veut une modélisation performante. Si $ N$ et $\epsilon$ sont tous deux trop petits ou tout deux trop grands, l’estimation de la température dans les cellules sera très mal évaluée, et donc la simulation peu efficace voire inutile.
+
+**Question 7**
+
+En prenant $\Delta t = \frac {\epsilon^2}{4D}$, on obtient:
+
+Les deux premières équation d'étape [Étape prédicteur] :
+$$\begin{cases}
+x_k^{n+1,*}&=x_k^n + \Delta t V_1(x_k^n,y_k^n)+\sqrt{2D\Delta t}\alpha_k^n\\
+y_k^{n+1,*}&=y_k^n + \Delta t V_2(x_k^n,y_k^n)+\sqrt{2D\Delta t}\beta_k^n\\
+\end{cases}$$
+Pour un pas de temps donné, il faut que la particule ne sorte pas de la cellule destinataire après avoir rajout´e le terme aléatoire dans la plupart des cas. On a donc :
+$$\sqrt{2D\Delta t}\gamma_k^n \leq \epsilon$$
+avec $\gamma_k^n \in \{\alpha_k^n,\beta_k^n\}$. L'inégalité devient:
+$$ \Delta t \leq \frac {\epsilon^2}{2D}$$
+Donc, on a que: $\sqrt{2D\Delta t}\gamma_k^n$ suit une loi normale $(0,2D \Delta t)$. Alors, son écart-type doit être inférieur à $\epsilon$.
+
+\\Thêm hình bạn ơiiii
+
+***Commentaires***
+
+En général les allures des profils de température obtenues sont similaires à celles obtenues par [la méthode des différences finies]. On note qu’à $y = 0$ et $y = 1$, les coupes du profil de température n’atteignent pas exactement les valeurs attendues (respectivement 0 et 1). Cela est dû au fait que l’estimation de la température dans les cellules sur les deux bords du domaine est faite à partir de moyennes sur les particules présentes dans les cellules.
+
+Pour les 3 couples de $K$ et $\epsilon$ de $(10000, 0.1),(10000, 0.05),(100000, 0.05)$, on constate le phénomène décrit auparavant. On peut observer plus clairement avec les champs de température et les courbes de profil de température du couple $(100000, 0.05)$, le phénomène de discontinuté de la température en certains points. En revanche, le couple $(100000, 0.1)$ satisfait la condition évoquée précédemment et nous donne un champ de température très clair et peu de discontinue.
+
+Le fluide réagit de la même manière qu’observée en [Question 4] on retrouve bien les zones extrêmes
+
+On remarque que plus dt est petit, plus le schéma tend à se stabiliser facilement. Cela peut s’expliquer par le fait que si dt est petit alors l’algorithme a le temps de faire beaucoup plus d’itérations jusqu’à $t_f$ . Ainsi, le caractère aléatoire introduit par le mouvement brownien tend à se stabiliser. En effet on peut s’en rendre compte en notant le fait suivant : plus on effectue d’observations sur une variable aléatoire, plus son comportement sera proche de celui attendu. On aura un cout très important è cause de l’augmentation d’itérations.
+
+***Comparison***
+
+On remarque que les solutions trouvées par la méthode de Monte-Carlo présentent plus de bruit que la solution réalisée par différences finies. Cette méthode ne peut pas encore rivaliser avec les différences finies dans ce travaux practiques pour un cout égal en temps, mais il va bien marcher si on rencontre les problèmes de dimension supérieure. On préferera donc la méthode des différences finis en problème de dimension petite, et la méthode de Monte-Carlo en ceux de dimension assez grande.
